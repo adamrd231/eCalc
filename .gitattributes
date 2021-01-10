@@ -1,0 +1,13 @@
+*.pbxproj -text
+App.js filter=lfs diff=lfs merge=lfs -text
+babel.config.js filter=lfs diff=lfs merge=lfs -text
+firebase.json filter=lfs diff=lfs merge=lfs -text
+index.js filter=lfs diff=lfs merge=lfs -text
+package-lock.json filter=lfs diff=lfs merge=lfs -text
+package.json filter=lfs diff=lfs merge=lfs -text
+__tests__ filter=lfs diff=lfs merge=lfs -text
+android filter=lfs diff=lfs merge=lfs -text
+app.json filter=lfs diff=lfs merge=lfs -text
+ios filter=lfs diff=lfs merge=lfs -text
+metro.config.js filter=lfs diff=lfs merge=lfs -text
+node_modules filter=lfs diff=lfs merge=lfs -text

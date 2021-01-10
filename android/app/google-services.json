@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "408463304485",
+    "project_id": "android-e-calc",
+    "storage_bucket": "android-e-calc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408463304485:android:c8ecb1a19c8500db985ccc",
+        "android_client_info": {
+          "package_name": "com.ecalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408463304485-p498gs2l3948mddqib64kpnpmqebqnvm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9axCEXzXuqQc17KsKIAjbkx0DYfk0IZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408463304485-p498gs2l3948mddqib64kpnpmqebqnvm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408463304485:android:3b579f67cc53ad28985ccc",
+        "android_client_info": {
+          "package_name": "com.ediblecalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408463304485-p498gs2l3948mddqib64kpnpmqebqnvm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9axCEXzXuqQc17KsKIAjbkx0DYfk0IZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408463304485-p498gs2l3948mddqib64kpnpmqebqnvm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408463304485:android:09a080d8639698c3985ccc",
+        "android_client_info": {
+          "package_name": "com.rdconcepts.ecalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408463304485-p498gs2l3948mddqib64kpnpmqebqnvm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9axCEXzXuqQc17KsKIAjbkx0DYfk0IZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408463304485-p498gs2l3948mddqib64kpnpmqebqnvm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

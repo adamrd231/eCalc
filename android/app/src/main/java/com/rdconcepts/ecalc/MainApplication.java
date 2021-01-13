@@ -11,6 +11,10 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+// React Native IAP package
+import com.dooboolab.RNIap.RNIapPackage;
+
 // MultiDex Import
 import androidx.multidex.MultiDexApplication; // <-- ADD THIS IMPORT
 
@@ -28,7 +32,11 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
+          // packages.add(new RNIapPackage());
+
+          // Package from IAP Added to overall packages list
+          // packages.add(RNIapPackage());
+
           return packages;
         }
 

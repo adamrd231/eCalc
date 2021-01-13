@@ -193,7 +193,8 @@ dependencies {
     // Implement Google Play Billing System
     def billing_version = "3.0.0"
     implementation "com.android.billingclient:billing:$billing_version"
-
+    // IAP Implementation
+    compile project(':react-native-iap')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion

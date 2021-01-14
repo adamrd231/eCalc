@@ -34,8 +34,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new RNIapPackage());
 
-          // Package from IAP Added to overall packages list
-          // packages.add(RNIapPackage());
+          // // Package from IAP Added to overall packages list
+          new RNIapPackage();
 
           return packages;
         }

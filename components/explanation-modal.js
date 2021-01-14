@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Keyboard, Button, TextInput, Modal, TouchableHighlight, Platform } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, Modal, TouchableHighlight } from 'react-native';
 
 
 const ExplanationModal = (props) => {
 
-    console.log("This is the explanation-modal props" + props)
-
     const isModalVisible = props.modalVisible
-    console.log(isModalVisible)
-
-    const returnModalVisible = () => {
-        props.setModalVisible(false);
-    }
 
     return (
       <Modal

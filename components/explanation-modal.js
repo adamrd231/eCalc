@@ -23,7 +23,7 @@ const ExplanationModal = (props) => {
                 <TouchableHighlight
                     style={styles.modalButton}
                     onPress={() => {
-                    returnModalVisible(false);}}>
+                    props.setModalVisible(false);}}>
                     <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>DONE</Text>
                 </TouchableHighlight>
             </View>

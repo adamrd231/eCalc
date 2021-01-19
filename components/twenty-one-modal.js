@@ -15,15 +15,29 @@ const TwentyOneModal = () => {
           Alert.alert("Modal has been closed.")
         }}>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>You must be 21 or over to use this app.</Text>
-          <TouchableHighlight
-            style={styles.modalButton}
-            onPress={() => {
-              setAgeModalVisible(false);
-            }}>
-            <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>I AM 21 +</Text>
-          </TouchableHighlight>
+          <View>
+            <Text style={styles.modalTitle}>You must be 21 or over to use this app.</Text>
+            <TouchableHighlight
+              style={styles.modalButton}
+              onPress={() => {
+                setAgeModalVisible(false);
+              }}>
+              <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>I AM 21 +</Text>
+            </TouchableHighlight>
+          </View>
+          
+          <View>
+            <Text>Would you like to remove video ads?</Text>
+            <TouchableHighlight
+              style={styles.modalButton}
+              onPress={() => {
+                
+              }}>
+              <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>Remove Video Ads</Text>
+            </TouchableHighlight>
+          </View>
         </View>
+        
       </Modal>
     );
 };

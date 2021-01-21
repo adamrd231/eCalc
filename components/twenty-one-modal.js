@@ -1,8 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Keyboard, Button, TextInput, Modal, TouchableHighlight, Platform } from 'react-native';
-
+import * as RNIap from 'react-native-iap';
+import {
+  purchaseErrorListener,
+  purchaseUpdatedListener,
+  type ProductPurchase,
+  type PurchaseError
+} from 'react-native-iap';
 
 const TwentyOneModal = () => {
+
+  let purchaseUpdateProduct = null;
+  let purchaseErrorProduct = null;
+
+  const itemSkus = Platform.select({
+    ios: ['hideAdvertising'],
+    android: ['remove_ads'],
+  });
+
+  const [product, setProducts ] = useState();
+
+  useEffect(() => {
+    CetInAppPurchases()
+    
+  }, []);
+
+  const requestPurchase = React.useCallback(async () => {
+    console.log("requestProduct for", itemSkus)
+    try {
+      await RNIap.requestSubscription(itemSkus[0], false);
+    } catch (err) {
+      console.warn(err.code, err.message)
+    }
+
+  }, []);
+
+  const CetInAppPurchases = async () => {
+
+      const products = await RNIap.getProducts(itemSkus)
+      console.log(products)
+
+  }
 
     const [ageModalVisible, setAgeModalVisible] = useState(true);
 
@@ -31,7 +69,7 @@ const TwentyOneModal = () => {
             <TouchableHighlight
               style={styles.modalButton}
               onPress={() => {
-                
+                requestPurchase()
               }}>
               <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>Remove Video Ads</Text>
             </TouchableHighlight>

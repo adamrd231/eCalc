@@ -1,17 +1,15 @@
-import { firebase } from '@react-native-firebase/admob';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Keyboard, Button, TextInput, Modal, TouchableHighlight, Platform } from 'react-native';
+import { StyleSheet, View, Text, Modal, TouchableHighlight, Platform } from 'react-native';
 import * as RNIap from 'react-native-iap';
 import {
   purchaseErrorListener,
   purchaseUpdatedListener,
-  type ProductPurchase,
-  type PurchaseError,
+  ProductPurchase,
+  PurchaseError,
 } from 'react-native-iap';
 
 const TwentyOneModal = (props) => {
 
-  const [ productReceipt, SetProductReceipt ] = useState();
   const [ purchasedRemoveAds, setPurchasedRemoveAds ] = useState(false);
 
   const [ ageModalVisible, setAgeModalVisible ] = useState(true);
@@ -29,42 +27,48 @@ const TwentyOneModal = (props) => {
 
   const CetAvailableInAppPurchases = async () => {
     // Check for any pending purchases and flush them?
-    RNIap.initConnection().then(() => {
-      RNIap.flushFailedPurchasesCachedAsPendingAndroid().catch( (error) => {
-        console.log("error", error)
-      })
-    })
+    // RNIap.initConnection().then(() => {
+    //   RNIap.flushFailedPurchasesCachedAsPendingAndroid().catch( (error) => {
+    //     console.log("error", error)
+    //   })
+    // })
 
     // Get all available products for purchase
     const products = await RNIap.getProducts(itemSkus)
-
+    console.log(products)
     // Check purchase history, if already bought, set state.
-    const purchaseHistory = await RNIap.getPurchaseHistory()
+    const purchaseHistory = await RNIap.getAvailablePurchases()
+
+    console.log("Available Purchases", purchaseHistory)
 
     if (purchaseHistory) {
       console.log("Purchase History", purchaseHistory)
-      // Check if there is an android purchase
-      const androidPurchaseHisotry = purchaseHistory[0].dataAndroid
-      if (androidPurchaseHisotry) {
-        setPurchasedRemoveAds(true);
-        props.setPurchasedRemoveAds(true);
+
+      if (Platform.OS == "android") {
+          // Check if there is an android purchase
+        const androidPurchaseHisotry = purchaseHistory[0]
+        console.log("Inside android OS", androidPurchaseHisotry)
+        if (androidPurchaseHisotry) {
+          console.log("Setting ads removed to true")
+          setPurchasedRemoveAds(true);
+          props.setPurchasedRemoveAds(true);
+        } else {
+          setPurchasedRemoveAds(false);
+          props.setPurchasedRemoveAds(false);
+        }
       } else {
-        setPurchasedRemoveAds(false);
-        props.setPurchasedRemoveAds(false);
-      }
-      // Check if there is an iOS Purchase
-      const iosPurchaseHistory = purchaseHistory[0].originalTransactionDateIOS 
-      if (iosPurchaseHistory) {
-        setPurchasedRemoveAds(true);
-        props.setPurchasedRemoveAds(true);
-      } else {
-        setPurchasedRemoveAds(false);
-        props.setPurchasedRemoveAds(false);
+        // Check if there is an iOS Purchase
+        const iosPurchaseHistory = purchaseHistory[0]
+        console.log("inside ios purchase history")
+        if (iosPurchaseHistory) {
+          setPurchasedRemoveAds(true);
+          props.setPurchasedRemoveAds(true);
+        } else {
+          setPurchasedRemoveAds(false);
+          props.setPurchasedRemoveAds(false);
+        }
       }
     }
-    
-    console.log("Purchase History", purchaseHistory[0].dataAndroid)
-    
 };
 
   async function requestPurchase() {
@@ -75,7 +79,6 @@ const TwentyOneModal = (props) => {
         const receipt = inAppPurchase.transactionReceipt
 
         if (receipt) {
-
           try {
             // Depending on platform, acknowledge purchase differently
             if (Platform.OS === 'android') {

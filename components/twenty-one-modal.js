@@ -35,7 +35,7 @@ const TwentyOneModal = (props) => {
 
     // Get all available products for purchase
     const products = await RNIap.getProducts(itemSkus)
-    console.log(products)
+    console.log("All Products", products)
     // Check purchase history, if already bought, set state.
     const purchaseHistory = await RNIap.getAvailablePurchases()
 

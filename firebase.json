@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a99f3f93582a31d1adccc8e92f022d6e33568156f83561332f672fd4f9167660
-size 169
+{
+    "react-native": {
+      "admob_android_app_id": "ca-app-pub-4186253562269967~1903701899",
+      "admob_ios_app_id": "1:993263428380:ios:06adb0e073701594"
+    }
+  }

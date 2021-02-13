@@ -12,6 +12,12 @@ const TwentyOneModal = (props) => {
 
   const [ purchasedRemoveAds, setPurchasedRemoveAds ] = useState(false);
 
+  const SUBSCRIPTION_STATUS = {
+    PENDING: "PENDING",
+    SUCCESS: "SUCCESS",
+    ERROR: "ERROR",
+  }
+
   const [ ageModalVisible, setAgeModalVisible ] = useState(true);
 
   const itemSkus = Platform.select({
@@ -27,11 +33,7 @@ const TwentyOneModal = (props) => {
 
   const CetAvailableInAppPurchases = async () => {
     // Check for any pending purchases and flush them?
-    // RNIap.initConnection().then(() => {
-    //   RNIap.flushFailedPurchasesCachedAsPendingAndroid().catch( (error) => {
-    //     console.log("error", error)
-    //   })
-    // })
+    RNIap.initConnection()
 
     // Get all available products for purchase
     const products = await RNIap.getProducts(itemSkus)

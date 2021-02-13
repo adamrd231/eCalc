@@ -10,8 +10,15 @@ import ExplanationModal from './components/explanation-modal';
 
 
 // Google AdMob Setup
-const adMobInterstitialID = 'ca-app-pub-4186253562269967/6422682781'
-const adMobBannerID = 'ca-app-pub-4186253562269967/2356688537'
+// Android
+const adMobInterstitialAndroidID = 'ca-app-pub-4186253562269967/6422682781'
+const adMobBannerAndroidID = 'ca-app-pub-4186253562269967/2356688537'
+// iOS
+const adMobInterstitialIOS = 'ca-app-pub-4186253562269967/3751660097'
+const adMobBannerIOS = 'ca-app-pub-4186253562269967/1810673377'
+// Test
+const adMobInterstitialTest = 'ca-app-pub-3940256099942544/4411468910'
+const adMobBannerTest = 'ca-app-pub-3940256099942544/2934735716'
 
 
 const App = () => {
@@ -54,7 +61,7 @@ const App = () => {
   const [ interstitialCount, SetInterstitialCount ] = useState(0);
  
   // Interstitial setup
-  const interstitial = InterstitialAd.createForAdRequest("ca-app-pub-3940256099942544/1033173712");
+  const interstitial = InterstitialAd.createForAdRequest(adMobInterstitialIOS);
 
   interstitial.onAdEvent((type) => {
     if (type === AdEventType.LOADED) {
@@ -190,7 +197,7 @@ const App = () => {
       </View>
       <View style={styles.adConatainer}>
         <BannerAd
-            unitId={"ca-app-pub-3940256099942544/6300978111"}
+            unitId={adMobBannerIOS}
             size={BannerAdSize.LARGE_BANNER}/>
             
       </View>

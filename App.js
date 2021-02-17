@@ -7,8 +7,6 @@ import { StyleSheet, View, Text, Keyboard, Button, TextInput } from 'react-nativ
 import TwentyOneModal from './components/twenty-one-modal';
 import ExplanationModal from './components/explanation-modal';
 
-
-
 // Google AdMob Setup
 // Android
 const adMobInterstitialAndroidID = 'ca-app-pub-4186253562269967/6422682781'
@@ -22,8 +20,6 @@ const adMobBannerTest = 'ca-app-pub-3940256099942544/2934735716'
 
 
 const App = () => {
-    firebase.initializeApp()
-
     // Inputs for the user
     const [ thc, SetTHC ] = useState();
     const [ cbd, SetCBD ] = useState();
@@ -61,7 +57,7 @@ const App = () => {
   const [ interstitialCount, SetInterstitialCount ] = useState(0);
  
   // Interstitial setup
-  const interstitial = InterstitialAd.createForAdRequest(adMobInterstitialIOS);
+  const interstitial = InterstitialAd.createForAdRequest(adMobInterstitialTest);
 
   interstitial.onAdEvent((type) => {
     if (type === AdEventType.LOADED) {
@@ -197,7 +193,7 @@ const App = () => {
       </View>
       <View style={styles.adConatainer}>
         <BannerAd
-            unitId={adMobBannerIOS}
+            unitId={adMobBannerTest}
             size={BannerAdSize.LARGE_BANNER}/>
             
       </View>

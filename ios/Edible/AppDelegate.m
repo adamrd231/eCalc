@@ -3,7 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import <Firebase.h>
+@import Firebase;
 
 
 #ifdef FB_SONARKIT_ENABLED
@@ -30,17 +30,15 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-  if ([FIRApp defaultApp] == nil) {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  
       [FIRApp configure];
-    }
   
-#ifdef FB_SONARKIT_ENABLED
-  InitializeFlipper(application);
-#endif
+      #ifdef FB_SONARKIT_ENABLED
+        InitializeFlipper(application);
+      #endif
   
-  [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+      [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
   
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];

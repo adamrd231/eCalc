@@ -1,107 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Modal, TouchableHighlight, Platform } from 'react-native';
-import * as RNIap from 'react-native-iap';
-import {
-  purchaseErrorListener,
-  purchaseUpdatedListener,
-  ProductPurchase,
-  PurchaseError,
-} from 'react-native-iap';
+import { requestPurchase, useIAP } from 'react-native-iap';
+
+
+
 
 const TwentyOneModal = (props) => {
+  
+  const [ ageModalVisible, setAgeModalVisible ] = useState(true);
 
   const [ purchasedRemoveAds, setPurchasedRemoveAds ] = useState(false);
 
-  const SUBSCRIPTION_STATUS = {
-    PENDING: "PENDING",
-    SUCCESS: "SUCCESS",
-    ERROR: "ERROR",
-  }
+  const nonConsumableSkus = [
+    'hideAdvertising',
+  ];
 
-  const [ ageModalVisible, setAgeModalVisible ] = useState(true);
+  const {
+    connected,
+    products,
+    subscriptions,
+    getProducts,
+    getSubscriptions,
+    finishTransaction,
+    currentPurchase,
+    currentPurchaseError,
+  } = useIAP();
 
-  const itemSkus = Platform.select({
-    ios: ['hideAdvertising'],
-    android: ['remove_ads'],
-  });
-
+  const purchase = (item: Purchase): void => {
+    if (item.type === 'iap') requestPurchase(item.productId);
+  };
 
   useEffect(() => {
-    CetAvailableInAppPurchases()
-  }, []);
+    getProducts(nonConsumableSkus)
+    console.log(products)
+  },[getProducts]);
 
+  useEffect(() => {
 
-  const CetAvailableInAppPurchases = async () => {
-    // Check for any pending purchases and flush them?
-    RNIap.initConnection()
+    const checkCurrentPurchase = async (purchase?: Purchase): Promise<void> => {
+      console.log(purchase)
 
-    // Get all available products for purchase
-    const products = await RNIap.getProducts(itemSkus)
-    console.log("All Products", products)
-    // Check purchase history, if already bought, set state.
-    const purchaseHistory = await RNIap.getAvailablePurchases()
-
-    console.log("Available Purchases", purchaseHistory)
-
-    if (purchaseHistory) {
-      console.log("Purchase History", purchaseHistory)
-
-      if (Platform.OS == "android") {
-          // Check if there is an android purchase
-        const androidPurchaseHisotry = purchaseHistory[0]
-        console.log("Inside android OS", androidPurchaseHisotry)
-        if (androidPurchaseHisotry) {
-          console.log("Setting ads removed to true")
-          setPurchasedRemoveAds(true);
-          props.setPurchasedRemoveAds(true);
-        } else {
-          setPurchasedRemoveAds(false);
-          props.setPurchasedRemoveAds(false);
-        }
-      } else {
-        // Check if there is an iOS Purchase
-        const iosPurchaseHistory = purchaseHistory[0]
-        console.log("inside ios purchase history")
-        if (iosPurchaseHistory) {
-          setPurchasedRemoveAds(true);
-          props.setPurchasedRemoveAds(true);
-        } else {
-          setPurchasedRemoveAds(false);
-          props.setPurchasedRemoveAds(false);
+      if (purchase) {
+        console.log("There is a purchase")
+        const receipt = purchase.transactionReceipt;
+        if (receipt) try {
+          console.log("There is a receipt")
+          const ackResult = await finishTransaction(purchase);
+          console.log('ackResult', ackResult);
+        } catch (ackErr) {
+          console.warn('ackErr', ackErr);
         }
       }
-    }
-};
+    };
 
-  async function requestPurchase() {
+    checkCurrentPurchase(currentPurchase);
+  }, [currentPurchase, finishTransaction]);
 
-    // Start the purchase by requesting the item 
-    const purchase = await RNIap.requestPurchase(itemSkus[0])
-      .then( inAppPurchase => {
-        const receipt = inAppPurchase.transactionReceipt
-
-        if (receipt) {
-          try {
-            // Depending on platform, acknowledge purchase differently
-            if (Platform.OS === 'android') {
-              RNIap.acknowledgePurchaseAndroid(inAppPurchase.purchaseToken)
-            } else if (Platform.OS === 'ios') {
-              RNIap.finishTransactionIOS(inAppPurchase.transactionId)
-            }
-            RNIap.finishTransaction(inAppPurchase, false)
-            // Update variable to stop video ads in app
-            setPurchasedRemoveAds(true);
-            props.setPurchasedRemoveAds(true);
-
-          } catch (error) {
-            console.log()
-            // If no receipt then play ads
-            setPurchasedRemoveAds(false);
-            props.setPurchasedRemoveAds(false);
-          }
-        }
-    });
-  };
 
     return (
         <Modal
@@ -113,7 +67,7 @@ const TwentyOneModal = (props) => {
         }}>
         <View style={styles.modalContainer}>
           <View>
-            <Text style={styles.modalTitle}>You must be 21 or over to use this app.</Text>
+            <Text style={styles.modalTitle}>You must be 21 or over to use the edible calculator.</Text>
             <TouchableHighlight
               style={styles.modalButton}
               onPress={() => {
@@ -124,25 +78,41 @@ const TwentyOneModal = (props) => {
             </TouchableHighlight>
           </View>
           
-          <View>
-            
-            <Text style={styles.videoTitle}>{purchasedRemoveAds == true ? "Thanks for supporting rdConcepts" : "Would you like to remove video ads?" }</Text>
-            <TouchableHighlight
-              style={ (purchasedRemoveAds == true) ? styles.modalButtonDisabled : styles.modalButton }
-              onPress={() => {
-                requestPurchase()
-              }}
-              disabled={purchasedRemoveAds == true}>
-              <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>Remove Video Ads</Text>
-            </TouchableHighlight>
+          <View style={styles.adsContainer}>
+            <Text style={{textAlign:'center',}}>In App Purchases</Text>
+            <View>
+              <Text style={styles.videoTitle}>{ (purchasedRemoveAds == true) ? "Purchase has been verified, thank you for supporting rdConcepts" : "Tired of watching videos?" }</Text>
+              <TouchableHighlight
+                style={ (purchasedRemoveAds == true) ? styles.modalButtonDisabled : styles.modalButton }
+                onPress={() => {
+                  
+                }}
+                disabled={purchasedRemoveAds == true}>
+                <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>Remove Video Ads</Text>
+              </TouchableHighlight>
+            </View>
+            <View>
+              <Text style={styles.videoTitle}>{(purchasedRemoveAds == true) ? "" : "Already bought this?"}</Text>
+              <TouchableHighlight
+                style={ (purchasedRemoveAds == true) ? styles.modalButtonDisabled : styles.modalButton }
+                onPress={() => {
+                  // Request to see if there are previous purchases on the account
+                  FetchPurchaseHistory()
+                }}
+                disabled={purchasedRemoveAds == true}>
+                <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>Restore Purchases</Text>
+              </TouchableHighlight>
+            </View>
+          
             
           </View>
         </View>
         
       </Modal>
     );
-
 };
+
+
 
 const styles = StyleSheet.create({ 
    modalContainer: {
@@ -154,6 +124,13 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     padding: 45,
+  },
+
+  adsContainer: {
+    marginTop: 25,
+    paddingTop: 15,
+    borderTopWidth: 1,
+    borderTopColor: "#ededed",
   },
 
   modalButton: {
@@ -175,7 +152,7 @@ const styles = StyleSheet.create({
   },
 
   modalTitle: {
-    fontSize: 25,
+    fontSize: 21,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -184,6 +161,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginTop: 12,
+    marginBottom: -5,
     textAlign: 'center',
     color: "#555",
   },

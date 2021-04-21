@@ -3,8 +3,6 @@ import { StyleSheet, View, Text, Modal, TouchableHighlight, Platform } from 'rea
 import { requestPurchase, useIAP } from 'react-native-iap';
 
 
-
-
 const TwentyOneModal = (props) => {
   
   const [ ageModalVisible, setAgeModalVisible ] = useState(true);
@@ -26,35 +24,12 @@ const TwentyOneModal = (props) => {
     currentPurchaseError,
   } = useIAP();
 
-  const purchase = (item: Purchase): void => {
-    if (item.type === 'iap') requestPurchase(item.productId);
-  };
-
   useEffect(() => {
     getProducts(nonConsumableSkus)
+    console.log(getProducts(nonConsumableSkus))
     console.log(products)
-  },[getProducts]);
+  },[]);
 
-  useEffect(() => {
-
-    const checkCurrentPurchase = async (purchase?: Purchase): Promise<void> => {
-      console.log(purchase)
-
-      if (purchase) {
-        console.log("There is a purchase")
-        const receipt = purchase.transactionReceipt;
-        if (receipt) try {
-          console.log("There is a receipt")
-          const ackResult = await finishTransaction(purchase);
-          console.log('ackResult', ackResult);
-        } catch (ackErr) {
-          console.warn('ackErr', ackErr);
-        }
-      }
-    };
-
-    checkCurrentPurchase(currentPurchase);
-  }, [currentPurchase, finishTransaction]);
 
 
     return (
@@ -85,7 +60,7 @@ const TwentyOneModal = (props) => {
               <TouchableHighlight
                 style={ (purchasedRemoveAds == true) ? styles.modalButtonDisabled : styles.modalButton }
                 onPress={() => {
-                  
+                  console.log(getProducts(nonConsumableSkus))
                 }}
                 disabled={purchasedRemoveAds == true}>
                 <Text style={{color: '#fff', paddingLeft: 15, paddingRight: 15}}>Remove Video Ads</Text>
